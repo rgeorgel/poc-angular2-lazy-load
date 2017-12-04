@@ -6,23 +6,35 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|module`.
+## Steps to make a lazy load of module
 
-## Build
+ng new poc-angular2-lazy-load --routing
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+### 1º Add link in the app component
 
-## Running unit tests
+<button routerLink="/lazy/load">Click to load</button>
+<router-outlet></router-outlet>
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### 2º Generate your “Lazy” Module
 
-## Running end-to-end tests
+ng g module lazy --flat
+ng g component lazy-parent --module lazy
+ng g component lazy-child --module lazy
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
+import RouterModule and add our route:
 
-## Further help
+const routes: Routes = [
+    { path: 'load', component: LazyParentComponent }
+];
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+### 3º Point the app router to lazy module
+
+const routes: Routes = [
+  { path: 'lazy', loadChildren: './modules/lazy/lazy.module#LazyModule'}
+];
+
+
+### 4º Test
+
+Open browser on http://localhost:4200/, witch inspector open, click on buton, and check our "x.chunk.js" calling
