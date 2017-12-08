@@ -19,9 +19,11 @@ ng new poc-angular2-lazy-load --routing
 ```
 ### 2º Generate your “Lazy” Module
 
+```bash
 ng g module lazy --flat
 ng g component lazy-parent --module lazy
 ng g component lazy-child --module lazy
+```
 
 import RouterModule and add our route:
 
